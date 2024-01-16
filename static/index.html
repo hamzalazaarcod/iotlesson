@@ -4,12 +4,13 @@
 
 </head>
 <body>
+
     {% load static %}
   <div class="navbar"  style="background-image: url({% static 'images/HD.jpg' %}) ; ">
     <nav >
         
             <ul>
-                    <li>  <a href="{% url 'table_view' %}" >Table</a></li>
+                    <li>  <a href="{% url 'table_view' %}" >Tableeee</a></li>
                     <li>  <a href="{% url 'myChart' %}" >Chart</a></li>
                     <li>  <a href="  {% url 'json' %}" >Json</a></li>
             </ul>
@@ -31,4 +32,3 @@
 </div>
 {% block i %}
   {% endblock %}
-  
