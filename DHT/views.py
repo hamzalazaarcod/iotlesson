@@ -8,7 +8,29 @@ from django.http import JsonResponse
 from datetime import timedelta
 import datetime
 import telepot
+from django.contrib.auth import authenticate, login,logout
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # Authenticating the user
+        user = authenticate(request, username=username, password=password)
+        # Checking if authentication is successful
+        if user is not None:
+            login(request, user)
+            return redirect("/index")
+        else:
+            return render(request, 'login.html', {'error': 'Invalid credentials'})
 
+    return render(request, 'login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
+@login_required
 def table(request):
     derniere_ligne = Dht11.objects.last()
     derniere_date = Dht11.objects.last().dt
@@ -19,7 +41,7 @@ def table(request):
         temps_ecoule = 'il y ' + str(difference_minutes // 60) + 'h' + str(difference_minutes % 60) + 'min'
     valeurs = {'date': temps_ecoule, 'id': derniere_ligne.id, 'temp': derniere_ligne.temp, 'hum': derniere_ligne.hum}
     return render(request, 'value.html', {'valeurs': valeurs})
-
+@login_required
 def download_csv(request):
     model_values = Dht11.objects.all()
     response = HttpResponse(content_type='text/csv')
@@ -31,13 +53,16 @@ def download_csv(request):
         writer.writerow(row)
     return response
 #pour afficher navbar de template
+@login_required
 def index_view(request):
     return render(request, 'index.html')
 
 #pour afficher les graphes
+@login_required
 def graphique(request):
     return render(request, 'Chart.html')
 # récupérer toutes les valeur de température et humidity sous forme un #fichier json
+@login_required
 def chart_data(request):
     dht = Dht11.objects.all()
 
@@ -50,6 +75,7 @@ def chart_data(request):
 
 #pour récupérer les valeurs de température et humidité de dernier 24h
 # et envoie sous forme JSON
+@login_required
 def chart_data_jour(request):
     dht = Dht11.objects.all()
     now = timezone.now()
@@ -68,6 +94,7 @@ def chart_data_jour(request):
 
 #pour récupérer les valeurs de température et humidité de dernier semaine
 # et envoie sous forme JSON
+@login_required
 def chart_data_semaine(request):
     dht = Dht11.objects.all()
     # calcul de la date de début de la semaine dernière
@@ -88,6 +115,7 @@ def chart_data_semaine(request):
 
 #pour récupérer les valeurs de température et humidité de dernier moins
 # et envoie sous forme JSON
+@login_required
 def chart_data_mois(request):
     dht = Dht11.objects.all()
 
@@ -106,8 +134,8 @@ def chart_data_mois(request):
     return JsonResponse(data)
 
 def sendtele():
-    token = '6560256875:AAFlqBSOxxNkocTa8lLxt5uy89Z6Yzal8N0'
-    rece_id = 6843716888
+    token = '6662023260:AAG4z48OO9gL8A6szdxg0SOma5hv9gIII1E'
+    rece_id = 1242839034
     bot = telepot.Bot(token)
     bot.sendMessage(rece_id, 'la température depasse la normale')
     print(bot.sendMessage(rece_id, 'OK.'))

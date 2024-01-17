@@ -2,70 +2,81 @@
 {% block i %}
 {% load static %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div  class="show-row">
-    <h3>Dashbord/Table/Last</h3>
-       <form method="post" id="my-form" >
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+<style>
+    body {
+        background-color: #add8e6; /* Set your desired background color (light blue in this case) */
+        background-image: url('../static/images/img_1.png'); /* Add this line to set the background image */
+        background-size: cover; /* Ensure the background image covers the entire screen */
+        background-repeat: no-repeat; /* Prevent the background image from repeating */
+    }
+
+     .table tbody {
+        background-color: white; /* Set the background color for the table body */
+    }
+</style>
+
+<div class="container"> <!-- Add a Bootstrap container class -->
+
+    <form method="post" id="my-form">
         {% csrf_token %}
         {{form}}
     </form>
-    
+
+    <div class="projects mt-4"> <!-- Add Bootstrap margin-top class -->
+
+        <div class="table-responsive"> <!-- Add Bootstrap class for responsive table -->
+            <table class="table table-bordered table-striped"> <!-- Add Bootstrap table classes -->
+
+                <thead class="thead-dark"> <!-- Add Bootstrap dark header class -->
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Temperature</th>
+                        <th scope="col">Humidity</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="{% url 'myChart' %}">DHT 11</a></td>
+                        <td>{{ valeurs.temp }}</td>
+                        <td>{{ valeurs.hum }}</td>
+                        <td>{{ valeurs.date }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button id='csv' class="btn btn-primary">Télécharger CSV</button> <!-- Add Bootstrap button classes -->
+    </div>
 </div>
-<div class="projects">
 
-  <div class ="tables" >
-     <table>
-
-    <thead class="DIV">
-        <tr>
-            <th>Nom <img  id="Capteur-logo" src="{% static 'images/dht11.jpg' %}" alt="Capteur Image"></th>
-            <th>Temperature <img  id="Temperature-logo" src="{% static 'images/temp.jpg' %}" alt="Temperature Image"></th>
-            <th>Humidity  <img id="Humidity-logo" src="{% static 'images/humidity.jpg' %}" alt="Humidity Image"></th>
-            <th>Date <img id="Humidity-logo" src="{% static 'images/time.jpg' %}" alt="Humidity Image"> </th>
-        </tr>
-    </thead>
-    <tbody>
-
-        <tr>
-            <td><a href="{% url 'myChart' %}" >DHT 11</a></td>
-<td>{{ valeurs.temp }} </td>
-            <td>{{ valeurs.hum }}</td>
-            <td>{{ valeurs.date }}</td>
-        </tr>
-       
-    </tbody>
-</table>
-</div>
-<button id='csv' >Télecharger csv</button>
-
-  </div>
-
-  <script>
-       
+<script>
     var selectEl = $('#mon_select');
-
     selectEl.change(function() {
         $('#my-form').submit();
     });
 
     var downloadButton = document.getElementById('csv');
-downloadButton.addEventListener('click', function() {
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/download_csv/', true);
-xhr.responseType = 'blob';
-xhr.onload = function() {
-if (xhr.status === 200) {
-  var url = window.URL.createObjectURL(xhr.response);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'model_values.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-};
-xhr.send();
-});
-
- 
+    downloadButton.addEventListener('click', function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/download_csv/', true);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var url = window.URL.createObjectURL(xhr.response);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'model_values.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        };
+        xhr.send();
+    });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 {% endblock i %}
