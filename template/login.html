@@ -1,70 +1,82 @@
 {% load static %}
 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login Page with Background Image Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
     <style>
         body {
-            background-image: url("{% static 'images/background_image.avif' %}");
+            background-image: url("https://img.freepik.com/premium-photo/scientific-molecule-background-with-flow-waves-medicine-science-technology-chemistry-wallpaper-o_230610-906.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             height: 100vh;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .row.justify-content-center {
-            min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container img {
+            max-width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            margin-bottom: 15px;
+        }
+
+        .login-container button {
+            width: 100%;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <form method="post" class="bg-light p-4 rounded mt-5">
-                    {% csrf_token %}
-                    <div class="text-center mb-4">
-                        <img src="{% static 'images/iotlogo.png' %}" alt="Your Logo" height="80">
-                    </div>
-
-                   <div class="form-outline mb-4">
-                                 <label class="form-label" >Login</label>
-
-            <input type="text" name="username" class="form-control" placeholder="Username" required/>
-
-        </div>
-
-        <div class="form-outline mb-4">
-
-                    <label class="form-label" >password</label>
-            <input type="password" name="password" class="form-control" placeholder="Password" required/>
-
-        </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" type="submit">Log in</button>
-                    </div>
-
-                    {% if error %}
-                        <p class="text-danger text-center">{{ error }}</p>
-                    {% endif %}
-                </form>
+    <div class="login-container">
+        <form method="post" class="bg-light p-4 rounded mt-5">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username"
+                    required>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password"
+                    placeholder="Enter your password" required>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Log in</button>
+            {% if error %}
+            <p class="text-danger text-center mt-3">{{ error }}</p>
+            {% endif %}
+        </form>
     </div>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
